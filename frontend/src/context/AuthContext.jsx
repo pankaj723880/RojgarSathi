@@ -118,7 +118,7 @@ const authFetch = useCallback(async (endpoint, options = {}) => {
 
         try {
             // Use relative path to leverage CRA proxy http://localhost:5000
-            const fullUrl = `/api/v1/${endpoint}`;
+            const fullUrl = `${apiBase}/${endpoint}`;
             console.log('📡 AuthFetch (proxy):', config.method || 'GET', fullUrl);
             
             const response = await fetch(fullUrl, {
