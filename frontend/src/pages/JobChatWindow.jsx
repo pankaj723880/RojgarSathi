@@ -202,6 +202,18 @@ const JobChatWindow = () => {
         return;
       }
 
+      // 🛠️ FIX: Define messageData outside the try/catch block so both can access it
+      let messageData = {
+        message: inputText.trim(),
+        jobId,
+      };
+
+      // Add contact info if anonymous
+      if (!user && contactInfo) {
+        messageData.senderName = contactInfo.name;
+        messageData.senderEmail = contactInfo.email;
+      }
+
       try {
         setSending(true);
 
@@ -221,17 +233,6 @@ const JobChatWindow = () => {
           setError(null);
           setTimeout(() => scrollToBottom(true), 100);
           return;
-        }
-
-        const messageData = {
-          message: inputText.trim(),
-          jobId,
-        };
-
-        // Add contact info if anonymous
-        if (!user && contactInfo) {
-          messageData.senderName = contactInfo.name;
-          messageData.senderEmail = contactInfo.email;
         }
 
         // Send via API with authentication (if available)
@@ -279,7 +280,7 @@ const JobChatWindow = () => {
               setConversationId(refreshedConversationId);
               const retryResponse = await axios.post(
                 `${API_BASE}/chat/message/${refreshedConversationId}`,
-                messageData,
+                messageData, // 🛠️ FIX: This will now successfully reference the variable
                 { headers }
               );
 
