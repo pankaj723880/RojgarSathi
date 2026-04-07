@@ -21,8 +21,8 @@ const createTestimonial = async (req, res) => {
 };
 
 // [GET] /api/v1/testimonials
-const getAllTestimonials = async (req, res) => {
-    try {
+res.status(200).json({ testimonials });
+try {
         const testimonials = await Testimonial.find({ isApproved: true })
             .sort({ createdAt: -1 }); // Most recent first
 
