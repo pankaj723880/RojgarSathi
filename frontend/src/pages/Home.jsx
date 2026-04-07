@@ -214,7 +214,7 @@ const HomePage = () => {
     const fetchTestimonials = async () => {
         setLoadingTestimonials(true);
         try {
-            const response = await fetch('/api/v1/testimonials');
+            const response = await fetch(process.env.REACT_APP_API_URL + '/testimonials');
             if (response.ok) {
                 const data = await response.json();
                 // Combine static testimonials with fetched ones
@@ -232,7 +232,7 @@ const HomePage = () => {
     const fetchCategoryCounts = async () => {
         setLoadingCategories(true);
         try {
-            const response = await fetch('/api/v1/jobs/categories/counts');
+            const response = await fetch(process.env.REACT_APP_API_URL + '/jobs/categories/counts');
             if (response.ok) {
                 const data = await response.json();
                 // Map counts to categories with icons
