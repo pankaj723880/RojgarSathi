@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './ChatWidget.css';
 import { useAuth } from '../../context/AuthContext';
+const API_BASE = process.env.REACT_APP_API_URL.replace('/api/v1', '');
 
 const formatTime = (iso) => {
   if (!iso) return '';
@@ -94,7 +95,7 @@ const ChatWindow = ({ onClose, inline = false, visible = true, onNewMessage }) =
     if (!replaceId) setMessages((m) => [...m, { id: loadingId, sender: 'bot', type: 'loading', text: '', time: new Date().toISOString() }]);
 
     try {
-      const res = await fetch('/api/ai/chat', {
+      const res = await fetch(API_BASE + '/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, role: user?.role || 'guest' }),
@@ -156,7 +157,7 @@ const ChatWindow = ({ onClose, inline = false, visible = true, onNewMessage }) =
     const loadingId = `rl-${Date.now()}`;
     setMessages((prev) => prev.map((m) => (m.id === msg.id ? { id: loadingId, sender: 'bot', type: 'loading', text: '', time: new Date().toISOString() } : m)));
     try {
-      const res = await fetch('/api/ai/chat', {
+      const res = await fetch(API_BASE + '/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msg.originalText, role: user?.role || 'guest' }),
